@@ -39,10 +39,22 @@ export default function LoginPage() {
           className="border p-2 w-full"
           required
         />
+        <div>
+          forgot password?{" "}
+          <a href="/forgotpassword" className="text-blue-600 hover:underline">
+            Click here  
+          </a>
+        </div>
         <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
           Sign In
         </button>
       </form>
+      <p className="mt-4">
+        Don't have an account?{" "}
+        <a href="/register" className="text-blue-600 hover:underline">
+          Register here
+        </a>
+      </p>
     </div>
   );
 }

@@ -8,7 +8,7 @@ import {
   useUpdateItemMutation,
 } from '@/lib/features/itemsApi';
 import { useState } from 'react';
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { redirect } from "next/navigation";
 
 
@@ -65,6 +65,7 @@ if (!session) redirect('/login'); // or show login button
   };
 
   return (
+    <>
     <main className="max-w-xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">RTK Query CRUD</h1>
 
@@ -140,5 +141,14 @@ if (!session) redirect('/login'); // or show login button
         </ul>
       )}
     </main>
+    <div className='flex justify-center mt-3'>
+      <button 
+      className='btn bg-red-500 text-white px-4 py-2 rounded'
+    onClick={() => signOut({ callbackUrl: '/login' })}
+    >
+      signOut
+    </button>
+    </div>
+    </>
   );
 }
