@@ -1,8 +1,9 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { connectToDB } from "@/lib/db"; // You must create this
-import User from "@/lib/models/User";   // You must create this
-import { compare } from "bcryptjs";     // Install bcryptjs
+import GoogleProvider from "next-auth/providers/google";
+import { connectToDB } from "@/lib/db";
+import User from "@/models/User";
+import { compare } from "bcryptjs";
 
 export const authOptions = {
   providers: [
@@ -23,6 +24,10 @@ export const authOptions = {
         return { id: user._id, name: user.name, email: user.email };
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
   ],
   pages: {
     signIn: "/login",
@@ -31,6 +36,27 @@ export const authOptions = {
     strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async signIn({ user, account }) {
+      if (account.provider === "google") {
+        await connectToDB();
+        const existingUser = await User.findOne({ email: user.email });
+
+        if (!existingUser) {
+          await User.create({
+            name: user.name,
+            email: user.email,
+            image: user.image,
+            provider: "google",
+          });
+        }
+      }
+      return true;
+    },
+    redirect: async ({ baseUrl }) => {
+      return baseUrl; // always redirect to homepage
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);

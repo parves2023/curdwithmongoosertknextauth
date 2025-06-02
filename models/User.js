@@ -1,8 +1,11 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
+  name: String,
+  image: String,
+  provider: { type: String, required: false },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  password: { type: String, required: false },
   resetToken: { type: String, default: null },
   resetTokenExpire: { type: Date, default: null },
 }, { timestamps: true });

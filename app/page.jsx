@@ -68,6 +68,7 @@ if (!session) redirect('/login'); // or show login button
     <>
     <main className="max-w-xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">RTK Query CRUD</h1>
+      <p className="mb-4">Welcome, {session.user.name || session.user.email}!</p>
 
       <form onSubmit={handleSubmit} className="space-y-2 mb-6">
         <input

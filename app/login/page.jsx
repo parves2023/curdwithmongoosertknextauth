@@ -1,6 +1,7 @@
 'use client';
 import { signIn } from "next-auth/react";
 import { useState } from "react";
+import AuthButton from "../../components/AuthButton";
 
 export default function LoginPage() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -55,6 +56,10 @@ export default function LoginPage() {
           Register here
         </a>
       </p>
+      <div className="mt-4">
+        Or sign in with{" "}
+        <AuthButton />
+      </div>
     </div>
   );
 }
