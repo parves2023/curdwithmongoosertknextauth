@@ -13,7 +13,6 @@ import { redirect } from "next/navigation";
 
 
 
-
 export default function Home() {
   const { data: items = [], isLoading } = useGetItemsQuery();
   const [addItem] = useAddItemMutation();
@@ -69,6 +68,15 @@ if (!session) redirect('/login'); // or show login button
     <main className="max-w-xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">RTK Query CRUD</h1>
       <p className="mb-4">Welcome, {session.user.name || session.user.email}!</p>
+      {
+        session?.user?.image && (
+          <img
+            src={session?.user?.image}
+            alt="User Avatar"
+            className="w-16 h-16 rounded-full mb-4"
+          />
+        )
+      }
 
       <form onSubmit={handleSubmit} className="space-y-2 mb-6">
         <input
